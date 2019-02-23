@@ -1,3 +1,5 @@
+int BORDER_X=2;
+int BORDER_Y=2;
 int VX = 2;
 int VY = 2;
 int HEAD_Y = 20;
@@ -33,6 +35,19 @@ void draw() {
   
   int mx = floor((mouseX-HEAD_X)/LX)+VX;
   int my = floor((mouseY-HEAD_Y)/LY)+VY;
+  int tmx = mx;
+  int tmy = my;
+  while(tmy>0){
+    fill(255, 255, 255);
+    int x1 = HEAD_X+(tmx-VX)*LX;
+    int y1 = HEAD_Y+(tmy-VY)*LY;
+    int x2 = HEAD_X+(tmx-VX+1)*LX;
+    int y2 = HEAD_Y+(tmy-VY+1)*LY;
+    rect(x1,y1,x2-x1,y2-y1);
+    tmy-=1;
+    tmx+=1;
+  }
+  
   IntDict specialColor = new IntDict();
   if((log(mx)/log(2)) % 1 == 0){
     if(mousePressed){
@@ -40,7 +55,7 @@ void draw() {
       for(my=VY;my<mx;my++){
         int N1 = (mx % my);
         int N2 = my - N1;
-        int tmx = mx;
+        tmx = mx;
         do{
           specialColor.set(""+(tmx + N2),1);
           tmx += my;
@@ -50,7 +65,7 @@ void draw() {
       int N1 = (mx % my);
       int N2 = my - N1;
       int NS = floor(pow(2,floor(log(mx)/log(2))+1));
-      int tmx = mx;
+      tmx = mx;
       do{
         specialColor.set(""+(tmx + N2),1);
         print(N1+","+N2+","+tmx+","+my+","+specialColor+"\n");
@@ -90,8 +105,8 @@ void draw() {
       }
       int x1 = HEAD_X+(i1-VX)*LX;
       int y1 = HEAD_Y+(i2-VY)*LY;
-      int x2 = HEAD_X+(i1-VX+1)*LX-2;
-      int y2 = HEAD_Y+(i2-VY+1)*LY-2;
+      int x2 = HEAD_X+(i1-VX+1)*LX-BORDER_X;
+      int y2 = HEAD_Y+(i2-VY+1)*LY-BORDER_Y;
       rect(x1,y1,x2-x1,y2-y1);
       fill(0, 255, 0);
       text(""+N,5+x1,y1,5+x2,y2);
@@ -99,24 +114,28 @@ void draw() {
       text(""+N2,LX/2+5+x1,y1,LX/2+5+x2,y2);
     }
   }
-  int N1 = (mx % my);
-  int N2 = my - N1;
-  text(N1 + "="+mx+"%"+my,HEAD_X,HEAD_Y+(CY+1)*LY);
-  text(N2 + "="+my+"-("+mx+"%"+my+")",HEAD_X,HEAD_Y+(CY+2)*LY);
   
-  int my2 = my + 1;
-  int N21 = (mx % my2);
-  //int Zt = floor((mx-2) / my);
-  int Zt = 1;
-  do{
-    Zt += 1;
-  }while((mx / Zt)>my);
-  //int Z = Zt;
-  int Z = Zt-1;
-  if((N21+Z)%my == (mx % my)){
-    text("=("+N21+"+"+Z+")"+"%"+my,HEAD_X+3*LX,HEAD_Y+(CY+1)*LY);
-    text("="+my+"-("+N21+"+"+Z+")"+"%"+my,HEAD_X+3*LX,HEAD_Y+(CY+2)*LY);
+  
+  if(my!=0){
+    int N1 = (mx % my);
+    int N2 = my - N1;
+    text(N1 + "="+mx+"%"+my,HEAD_X,HEAD_Y+(CY+1)*LY);
+    text(N2 + "="+my+"-("+mx+"%"+my+")",HEAD_X,HEAD_Y+(CY+2)*LY);
+    
+    int my2 = my + 1;
+    int N21 = (mx % my2);
+    //int Zt = floor((mx-2) / my);
+    int Zt = 1;
+    do{
+      Zt += 1;
+    }while((mx / Zt)>my);
+    //int Z = Zt;
+    int Z = Zt-1;
+    if((N21+Z)%my == (mx % my)){
+      text("=("+N21+"+"+Z+")"+"%"+my,HEAD_X+3*LX,HEAD_Y+(CY+1)*LY);
+      text("="+my+"-("+N21+"+"+Z+")"+"%"+my,HEAD_X+3*LX,HEAD_Y+(CY+2)*LY);
+    }
+    text("mx:"+mx+",my:"+my,HEAD_X+10*LX,HEAD_Y+(CY+1)*LY);
   }
-  text("mx:"+mx+",my:"+my,HEAD_X+10*LX,HEAD_Y+(CY+1)*LY);
   
 }
