@@ -50,11 +50,12 @@ void draw() {
       int N1 = (mx % my);
       int N2 = my - N1;
       int NS = floor(pow(2,floor(log(mx)/log(2))+1));
+      int tmx = mx;
       do{
-        specialColor.set(""+(mx + N2),1);
-        print(N1+","+N2+","+mx+","+my+","+specialColor+"\n");
-        mx += my;
-      }while(mx+N2<NS);
+        specialColor.set(""+(tmx + N2),1);
+        print(N1+","+N2+","+tmx+","+my+","+specialColor+"\n");
+        tmx += my;
+      }while(tmx+N2<NS);
     }
   }
   
@@ -105,13 +106,17 @@ void draw() {
   
   int my2 = my + 1;
   int N21 = (mx % my2);
-  int N22 = my - N1;
+  //int Zt = floor((mx-2) / my);
   int Zt = 1;
   do{
     Zt += 1;
   }while((mx / Zt)>my);
+  //int Z = Zt;
   int Z = Zt-1;
-  text("=("+N21+"+"+Z+")"+"%"+my,HEAD_X+3*LX,HEAD_Y+(CY+1)*LY);
-  text("="+my+"-("+N21+"+"+Z+")"+"%"+my,HEAD_X+3*LX,HEAD_Y+(CY+2)*LY);
+  if((N21+Z)%my == (mx % my)){
+    text("=("+N21+"+"+Z+")"+"%"+my,HEAD_X+3*LX,HEAD_Y+(CY+1)*LY);
+    text("="+my+"-("+N21+"+"+Z+")"+"%"+my,HEAD_X+3*LX,HEAD_Y+(CY+2)*LY);
+  }
+  text("mx:"+mx+",my:"+my,HEAD_X+10*LX,HEAD_Y+(CY+1)*LY);
   
 }
