@@ -102,4 +102,16 @@ void draw() {
   int N2 = my - N1;
   text(N1 + "="+mx+"%"+my,HEAD_X,HEAD_Y+(CY+1)*LY);
   text(N2 + "="+my+"-("+mx+"%"+my+")",HEAD_X,HEAD_Y+(CY+2)*LY);
+  
+  int my2 = my + 1;
+  int N21 = (mx % my2);
+  int N22 = my - N1;
+  int Zt = 1;
+  do{
+    Zt += 1;
+  }while((mx / Zt)>my);
+  int Z = Zt-1;
+  text("=("+N21+"+"+Z+")"+"%"+my,HEAD_X+3*LX,HEAD_Y+(CY+1)*LY);
+  text("="+my+"-("+N21+"+"+Z+")"+"%"+my,HEAD_X+3*LX,HEAD_Y+(CY+2)*LY);
+  
 }
