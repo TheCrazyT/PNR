@@ -22,7 +22,12 @@ GButton btnRight;
 GButton btnUp;
 GButton btnDown;
 GButton btnMode;
+IntList discoveredPrims;
+IntList discoveredBorders;
+
 void setup() {
+   discoveredPrims = new IntList();
+   discoveredBorders = new IntList();
    int WIN_WIDTH = 1900;
    int WIN_HEIGHT = 600;
    size(1900, 600);
@@ -202,13 +207,29 @@ void draw_mode0(){
         int N = (i1 % i2);
         if(N == 0){
           prim = false;
+          break;
+        }
+      }
+      if(prim){
+        if(!discoveredPrims.hasValue(i1)){
+          discoveredPrims.append(i1);
+          int v = 1;
+          if(discoveredBorders.size()>0){
+            v = discoveredBorders.get(discoveredBorders.size()-1);
+          }
+          discoveredBorders.append(v*i1);
         }
       }
       for(int i2=VY;i2<VY+CY;i2++){
         int N  = (i1 % i2);
         int N2 = i2 - N;
         if(N != 0){
-          if(specialColor.hasKey(""+i1+":"+i2)||specialColor.hasKey(""+i1)){
+          String k1 = ""+i1+":"+i2;
+          String k2 = ""+i1;
+          if(discoveredBorders.hasValue(i1)){
+            fill(100, 0, 0);
+          }
+          else if(specialColor.hasKey(k1)||specialColor.hasKey(k2)){
             //print("K2:" + K2+"\n");
             fill(0, 255, 255);
           }else{
