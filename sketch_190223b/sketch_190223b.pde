@@ -90,7 +90,9 @@ void mouseWheel(MouseEvent event) {
     }
 }*/
 void draw_mode0(){
-  
+  draw_mode0(false);
+}
+void draw_mode0(boolean sq){
     int mx = floor((mouseX-HEAD_X)/LX)+VX;
     int my = floor((mouseY-HEAD_Y)/LY)+VY;
     int tmx = mx;
@@ -99,7 +101,9 @@ void draw_mode0(){
     int tmx4 = mx;
     float tmx5 = mx;
     float tmx6 = mx;
+    float tmx7 = mx;
     int tmy = my;
+    boolean tmx7neg = false;
     if((mouseX>HEAD_X)&&(mouseY>HEAD_Y)&&(mouseY<HEAD_Y+CY*LY)){
       while(tmy>0){
         //DIAGONAL
@@ -145,6 +149,13 @@ void draw_mode0(){
           rect(x1,y1,x2-x1,y2-y1);
         }
 
+        fill(0, 255, 0);
+        x1 = HEAD_X+int(tmx7-VX)*LX;
+        y1 = HEAD_Y+(tmy-VY)*LY;
+        x2 = HEAD_X+int(tmx7-VX+1)*LX;
+        y2 = HEAD_Y+(tmy-VY+1)*LY;
+        rect(x1,y1,x2-x1,y2-y1);
+
         tmy -= 1;
         tmx += 1;
         tmx2 += 2;
@@ -152,6 +163,16 @@ void draw_mode0(){
         tmx4 += 4;
         tmx5 += 0.5;
         tmx6 += 0.25;
+        
+        if(tmx7neg){
+          tmx7 += 2;
+        }else{
+          tmx7 -= 2;
+          if(tmx7 <= -1.0){
+            tmx7 = - tmx7;
+            tmx7neg = true;
+          }
+        }
  
       }
     }
@@ -217,6 +238,7 @@ void draw_mode0(){
           if(discoveredBorders.size()>0){
             v = discoveredBorders.get(discoveredBorders.size()-1);
           }
+          //discoveredBorders.append(v*(i1-1));
           discoveredBorders.append(v*i1);
         }
       }
@@ -251,6 +273,11 @@ void draw_mode0(){
         int y1 = HEAD_Y+(i2-VY)*LY;
         int x2 = HEAD_X+(i1-VX+1)*LX-BORDER_X;
         int y2 = HEAD_Y+(i2-VY+1)*LY-BORDER_Y;
+        if(sq){
+          if(i2 > sqrt(i1)){
+            fill(0, 0, 0);
+          }
+        }
         rect(x1,y1,x2-x1,y2-y1);
         if(Factor > 0.25){
             fill(0, 255, 0);
@@ -291,7 +318,7 @@ void draw_mode0(){
     }
 }
 void draw_mode1(){
-  //TODO
+  draw_mode0(true);
 }
 void draw() {
   textSize(TS);
